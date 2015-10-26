@@ -1,36 +1,56 @@
 package BlackJack.controller;
 
-import BlackJack.view.IView;
 import BlackJack.model.Game;
+import BlackJack.model.observer.Observer;
+import BlackJack.view.IView;
 
-public class PlayGame {
+import static BlackJack.view.IView.Options.*;
 
-  public boolean Play(Game a_game, IView a_view) {
+public class PlayGame implements Observer {
+
+  private Game a_game;
+  private IView a_view;
+
+
+  public PlayGame(Game a_game, IView a_view) {
+    this.a_game = a_game;
+    this.a_view = a_view;
+    this.a_game.AddObserver(this);
+  }
+
+  public void Play() {
+    IView.Options option;
     a_view.DisplayWelcomeMessage();
-    
+
+
+    do {
+      if (a_game.IsGameOver()) {
+        a_view.DisplayGameOver(a_game.IsDealerWinner());
+      }
+
+      option = a_view.GetInput();
+
+      switch (option) {
+        case STAND:
+          a_game.Stand();
+          break;
+        case PLAY:
+          a_game.NewGame();
+          break;
+        case HIT:
+          a_game.Hit();
+          break;
+      }
+    } while (option != QUIT);
+  }
+
+  public void Update() {
     a_view.DisplayDealerHand(a_game.GetDealerHand(), a_game.GetDealerScore());
     a_view.DisplayPlayerHand(a_game.GetPlayerHand(), a_game.GetPlayerScore());
-
-    if (a_game.IsGameOver())
-    {
-        a_view.DisplayGameOver(a_game.IsDealerWinner());
+    try {
+      Thread.sleep(3000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
     }
-
-    int input = a_view.GetInput();
-    
-    if (input == 'p')
-    {
-        a_game.NewGame();
-    }
-    else if (input == 'h')
-    {
-        a_game.Hit();
-    }
-    else if (input == 's')
-    {
-        a_game.Stand();
-    }
-
-    return input != 'q';
   }
 }

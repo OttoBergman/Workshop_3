@@ -1,23 +1,43 @@
 package BlackJack.view;
 
-public class SimpleView implements IView 
+import java.io.IOException;
+import java.util.Scanner;
+
+public class SimpleView implements IView
 {
 
   public void DisplayWelcomeMessage()
         {
-          for(int i = 0; i < 50; i++) {System.out.print("\n");}; 
+          for(int i = 0; i < 50; i++) {System.out.print("\n");}
           System.out.println("Hello Black Jack World");
           System.out.println("Type 'p' to Play, 'h' to Hit, 's' to Stand or 'q' to Quit\n");
         }
 
-        public int GetInput()
+        public Options GetInput()
         {
-          try {
-            return System.in.read();
-          } catch (java.io.IOException e) {
-            System.out.println("" + e);
-            return 0;
-          }
+            Scanner sc = new Scanner(System.in);
+            while (true) {
+                try {
+                    String input = sc.next();
+
+                    switch (input) {
+                        case "h":
+                            return Options.HIT;
+                        case "q":
+                            return Options.QUIT;
+                        case "p":
+                            return Options.PLAY;
+                        case "s":
+                            return Options.STAND;
+
+                        default:
+                            throw new IllegalArgumentException("Not a valid choice");
+                    }
+                } catch (IllegalArgumentException e) {
+
+                    System.out.println(e.getMessage() + "Please try again");
+                }
+            }
         }
 
         public void DisplayCard(BlackJack.model.Card a_card)
@@ -59,4 +79,4 @@ public class SimpleView implements IView
             }
             
         }
-    }
+}

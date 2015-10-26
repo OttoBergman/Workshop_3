@@ -1,5 +1,7 @@
 package BlackJack.model;
 
+import BlackJack.model.observer.Observer;
+
 public class Game {
 
   private Dealer m_dealer;
@@ -16,6 +18,7 @@ public class Game {
   {
     return m_dealer.IsGameOver();
   }
+
   
   public boolean IsDealerWinner()
   {
@@ -34,8 +37,8 @@ public class Game {
   
   public boolean Stand()
   {
-    // TODO: Implement this according to Game_Stand.sequencediagram
-    return true;
+    return m_dealer.Stand();
+
   }
   
   public Iterable<Card> GetDealerHand()
@@ -57,6 +60,10 @@ public class Game {
   {
     return m_player.CalcScore();
   }
-    
+
+  public void AddObserver(Observer a_observer) {
+    m_player.AddObserver(a_observer);
+    m_dealer.AddObserver(a_observer);
+  }
   
 }
