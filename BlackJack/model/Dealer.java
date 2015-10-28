@@ -37,7 +37,7 @@ public class Dealer extends Player {
 
   public boolean Hit(Player a_player) {
     if (m_deck != null && a_player.CalcScore() < g_maxScore && !IsGameOver()) {
-      a_player.DealCard(GetAndShowCard());
+      a_player.DealCard(GetAndShowCard(true));
       return true;
     }
     return false;
@@ -60,16 +60,16 @@ public class Dealer extends Player {
       ShowHand();
 
       while (m_hitRule.DoHit(this)) {
-        DealCard(GetAndShowCard());
+        DealCard(GetAndShowCard(true));
       }
       return true;
     }
     return false;
   }
 
-    public Card GetAndShowCard() {
+    public Card GetAndShowCard(boolean show) {
         Card c = m_deck.GetCard();
-        c.Show(true);
+        c.Show(show);
         return c;
     }
 }
