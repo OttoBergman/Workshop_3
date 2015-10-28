@@ -1,0 +1,3 @@
+Vi ordnade till den duplicerade koden vi missat. De andra ändringarna 
+som peer reviewsen påpekar ändrar vi dock inte då detta inte
+var något krav enligt grade 2 uppgiftsbeskrivning.
